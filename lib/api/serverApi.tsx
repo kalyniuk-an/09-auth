@@ -23,7 +23,7 @@ export interface NewNote {
 
 export async function fetchNotes(params: FetchNotesParams): Promise<FetchNotesResponse> {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
+  // const accessToken = cookieStore.get('accessToken')?.value;
   
   const { page, perPage, search, tag, sortBy } = params;
   const query: Record<string, unknown> = {
