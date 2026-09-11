@@ -6,15 +6,15 @@ const privateRouters = ['/profile', '/notes'];
 const authRoutes = ['/sign-in', '/sign-up'];
 
 export async function proxy(request: NextRequest) {
-  const coocieStore = await cookies();
-  const accessToken = coocieStore.get('accessToken')?.value;
-  const refreshTOken = coocieStore.get('refreshToken')?.value;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
 
   const { pathname } = request.nextUrl;
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
   const isPrivateRoute = privateRouters.some((route) => pathname.startsWith(route));
 
-  if (isPrivateRoute && !accessToken && refreshTOken) {
+  if (isPrivateRoute && !accessToken && refreshToken) {
     try {
       const response = await checkSession();
       const nextResponse = NextResponse.next();
@@ -40,7 +40,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
-  return NextResponse.next();
 }
 
 export const config = {

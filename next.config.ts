@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "as.goit.global",
+        hostname: "ac.goit.global",
       },
     ],
   },

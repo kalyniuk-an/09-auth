@@ -9,7 +9,7 @@ export interface FetchNotesResponse {
 
 interface FetchNotesParams {
   page: number;
-  perPage?: 12;
+  perPage?: number;
   search?: string;
   tag?: string;
   sortBy?: "created" | "updated";
@@ -73,20 +73,20 @@ export const login = async (data: LoginRequest): Promise<User> => {
 }
 
 export const logout = async (): Promise<void> => {
-  await nextServer.post<User>('/auth/logout');
+  await nextServer.post('/auth/logout');
 }
 
-export const cheeckSession = async () => {
+export const checkSession = async () => {
   const response = await nextServer.get<User | null>('/auth/session');
   return response.data;
 }
 
 export const getMe = async (): Promise<User> => {
-  const response = await nextServer.get<User>('/auth/me');
+  const response = await nextServer.get<User>('/users/me');
   return response.data;
 }
 
 export const updateMe = async (name: string) => {
-  const response = await nextServer.patch<User>('/user/me', { username: name });
+  const response = await nextServer.patch<User>('/users/me', { username: name });
   return response.data;
 }
