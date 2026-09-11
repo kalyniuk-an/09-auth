@@ -9,7 +9,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 export default function AuthNavigation() {
   const router = useRouter();
 
-  const user = useAuthStore(state => state.user);
+  // const user = useAuthStore(state => state.user);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const clearIsAuthenticated = useAuthStore(state => state.clearIsAuthenticated);
 
@@ -32,18 +32,18 @@ export default function AuthNavigation() {
           Logout
         </button>
       </li>
-      
-      <li className={css.navigationItem}>
-        <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
-          Sign up
-        </Link>
-      </li>
     </>
   ) : (
     <>
       <li className={css.navigationItem}>
         <Link href="/sign-in" prefetch={false} className={css.navigationLink}>
           Login
+        </Link>
+        </li>
+        
+        <li className={css.navigationItem}>
+        <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
+          Sign up
         </Link>
       </li>
     </>

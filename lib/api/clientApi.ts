@@ -75,3 +75,18 @@ export const login = async (data: LoginRequest): Promise<User> => {
 export const logout = async (): Promise<void> => {
   await nextServer.post<User>('/auth/logout');
 }
+
+export const cheeckSession = async () => {
+  const response = await nextServer.get<User | null>('/auth/session');
+  return response.data;
+}
+
+export const getMe = async (): Promise<User> => {
+  const response = await nextServer.get<User>('/auth/me');
+  return response.data;
+}
+
+export const updateMe = async (name: string) => {
+  const response = await nextServer.patch<User>('/user/me', { username: name });
+  return response.data;
+}
