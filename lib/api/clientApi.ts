@@ -47,6 +47,11 @@ export interface NewNote {
   tag: string;
 }
 
+export interface LoginRequest{
+  email: string;
+  password: string;
+}
+
 export const createNote = async (note: NewNote): Promise<Note> => {
   const response = await nextServer.post<Note>('/notes', note);
   return response.data;
@@ -57,7 +62,16 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
   return response.data;
 }
 
-export const register = async (email: string, password: string): Promise<User>=>{ 
-  const response = await nextServer.post<User>('/auth/register', {email, password});
+export const register = async (data: LoginRequest): Promise<User>=>{ 
+  const response = await nextServer.post<User>('/auth/register', data);
   return response.data;
+}
+
+export const login = async (data: LoginRequest): Promise<User> => {
+  const response = await nextServer.post<User>('/auth/login', data);
+  return response.data;
+}
+
+export const logout = async (): Promise<void> => {
+  await nextServer.post<User>('/auth/logout');
 }
