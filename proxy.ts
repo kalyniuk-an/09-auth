@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { checkSession } from "./lib/api/serverApi";
 
-const privateRouters = ['/profile', '/notes'];
+const privateRoutes = ['/profile', '/notes'];
 const authRoutes = ['/sign-in', '/sign-up'];
 
 export async function proxy(request: NextRequest) {
@@ -11,8 +11,11 @@ export async function proxy(request: NextRequest) {
   const refreshToken = cookieStore.get('refreshToken')?.value;
 
   const { pathname } = request.nextUrl;
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-  const isPrivateRoute = privateRouters.some((route) => pathname.startsWith(route));
+
+  const isRouteMatch = (pathname: string, route: string) =>
+    pathname === route || pathname.startsWith(`${route}/`);
+  const isAuthRoute = authRoutes.some((route) => isRouteMatch(pathname, route));
+  const isPrivateRoute = privateRoutes.some((route) => isRouteMatch(pathname, route));
 
   if (accessToken) {
     if (isAuthRoute) {
@@ -33,7 +36,7 @@ export async function proxy(request: NextRequest) {
         }
       }
       return nextResponse;
-    } catch (error) {
+    } catch {
       if (isPrivateRoute) {
         return NextResponse.redirect(new URL('/sign-in', request.url));
       }
